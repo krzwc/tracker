@@ -4,7 +4,7 @@
 
 # Backlog
 
-- GraphQL backend
+- GraphQL backend as lambda functions
 - exemplary gpx -> parsing and saving to DB
 - react query GraphQL queries
 - microfrontend arch
