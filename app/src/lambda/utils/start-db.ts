@@ -1,4 +1,4 @@
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import { DATABASE_URL } from "../config";
 import { models } from "../models";
 import { populateDB } from "./populate-db";
