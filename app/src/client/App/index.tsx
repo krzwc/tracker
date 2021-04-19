@@ -1,40 +1,40 @@
-import React from 'react';
-import { Query, QueryResult } from 'react-apollo';
-import gql from 'graphql-tag';
+import React from "react";
+import { useQuery } from "@apollo/client";
+import gql from "graphql-tag";
+import type { PostModel } from "../../lambda/models/post";
+
+export const GET_POSTS = gql`
+  query posts {
+    posts {
+      title
+      content
+    }
+  }
+`;
 
 export default function App() {
+  const { data, loading, error } = useQuery(GET_POSTS);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+  if (error) {
     return (
-        <div style={{ textAlign: 'center' }}>
-            <img
-                alt="Hero"
-                src="https://repository-images.githubusercontent.com/262431185/a69fe580-922a-11ea-96b6-4108819fc1d9"
-                style={{ maxWidth: '640px' }}
-            />
-            <h1>Apollo GraphQL TypeScript</h1>
-            <Query
-                query={gql`{
-                    hello
-                }`}
-                fetchPolicy="network-only"
-            >
-                {({ loading, error, data }: QueryResult) => {
-                    if (loading) {
-                        return <div>Loading...</div>;
-                    }
-                    if (error) {
-                        return (
-                            <>
-                                <h3>Something went wrong!</h3>
-                                <div>{error.message}</div>
-                            </>
-                        );
-                    }
-                    if (data) {
-                        return <h3>{data.hello}</h3>;
-                    }
-                    return null;
-                }}
-            </Query>
-        </div>
+      <>
+        <h3>Something went wrong!</h3>
+        <div>{error.message}</div>
+      </>
     );
+  }
+  return (
+    <div style={{ textAlign: "center" }}>
+      <ul>
+        {data?.posts.map(({ title, content }: PostModel, index: number) => (
+          <li key={index}>
+            <h3>{title}</h3>
+            <p>{content}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
 }

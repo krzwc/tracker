@@ -1,7 +1,6 @@
 {
   "name": "apollo-graphql-typescript",
   "version": "1.0.0",
-  "description": "Template for serverless typed GraphQL app deployed on netlify",
   "main": "index.js",
   "scripts": {
     "build:lambda": "tsc -p src/lambda/tsconfig.json",
@@ -13,15 +12,13 @@
     "start": "run-p start:**",
     "check:lint": "eslint src/ --ext .tsx,.ts,.js,.jsx"
   },
-  "author": "pushkar8723@gmail.com",
   "license": "MIT",
   "dependencies": {
-    "apollo-cache-inmemory": "^1.6.5",
-    "apollo-client": "^2.6.8",
-    "apollo-link-http": "^1.5.17",
+    "@apollo/client": "^3.3.14",
     "apollo-server-lambda": "^2.14.2",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
+    "mongoose": "^5.12.4",
     "react": "^16.13.1",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.13.1"
@@ -32,6 +29,8 @@
     "@babel/register": "^7.9.0",
     "@graphql-codegen/cli": "^1.21.3",
     "@graphql-codegen/typescript": "^1.21.1",
+    "@types/mongoose": "^5.10.5",
+    "@types/node": "^14.14.41",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "@typescript-eslint/eslint-plugin": "^3.0.0",
@@ -52,10 +51,5 @@
     "webpack": "^4.43.0",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run check:lint"
-    }
   }
 }
