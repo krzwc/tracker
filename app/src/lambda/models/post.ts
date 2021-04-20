@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 export type PostModel = mongoose.Document & {
   title: string;
   content: string;
+  _id: string;
 };
 
 const postSchema = new mongoose.Schema({

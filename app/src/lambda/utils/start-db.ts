@@ -3,7 +3,7 @@ import { DATABASE_URL } from "../config";
 import { models } from "../models";
 import { populateDB } from "./populate-db";
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 
 export const startDB = (url = DATABASE_URL) => {
   return mongoose
@@ -17,6 +17,6 @@ export const startDB = (url = DATABASE_URL) => {
       if (eraseDatabaseOnSync) {
         await Promise.all([models.Post.deleteMany({})]);
       }
-      populateDB();
+      //populateDB();
     });
 };

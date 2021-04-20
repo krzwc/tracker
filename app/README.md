@@ -1,3 +1,6 @@
+Playground served locally from:
+http://localhost:3000/.netlify/functions/graphql
+
 ![Serverless typed apollo graphql with react](https://user-images.githubusercontent.com/2996493/81471761-11442780-9211-11ea-88ff-03162f2a0b4e.png)
 
 # apollo-graphql-typescript
