@@ -1,18 +1,18 @@
 import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
-import type { XmlModel } from "../../lambda/models/xml";
+import type { GpxModel } from "../../lambda/models/gpx";
 
-export const GET_XMLS = gql`
-  query xmls {
-    xmls {
+export const GET_GPXS = gql`
+  query gpxs {
+    gpxs {
       content
     }
   }
 `;
 
 export default function App() {
-  const { data, loading, error } = useQuery(GET_XMLS);
+  const { data, loading, error } = useQuery(GET_GPXS);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -27,7 +27,7 @@ export default function App() {
   return (
     <div style={{ textAlign: "center" }}>
       <ul>
-        {data?.xmls.map(({ content }: XmlModel, index: number) => (
+        {data?.gpxs.map(({ content }: GpxModel, index: number) => (
           <li key={index}>
             <pre>{content}</pre>
           </li>

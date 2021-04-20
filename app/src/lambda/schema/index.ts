@@ -1,19 +1,19 @@
 import { gql } from "apollo-server-lambda";
 
 const typeDefs = gql`
-  type Xml {
+  type Gpx {
     id: ID!
     content: String!
   }
 
   type Query {
-    xml(id: ID!): Xml!
-    xmls: [Xml!]!
+    gpx(id: ID!): Gpx!
+    gpxs: [Gpx!]!
   }
 
   type Mutation {
-    createXml(content: String!): Xml!
-    deleteXml(id: ID!): ID!
+    createGpx(content: String!): Gpx!
+    deleteGpx(id: ID!): ID!
   }
 `;
 

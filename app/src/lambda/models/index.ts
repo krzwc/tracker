@@ -1,5 +1,5 @@
-import { Xml } from "./xml";
+import { Gpx } from "./gpx";
 
 export const models = {
-  Xml,
+  Gpx,
 };
