@@ -1,14 +1,20 @@
 import { models } from "../models";
+import * as fs from "fs";
+import { Parser } from "xml2js";
 
-export const populateDB = async () => {
-  try {
-    const gpx = new models.Gpx({
-      content:
-        "Lorem ipsum dolor sit amet enim. Etiam ullamcorper. Suspendisse a pellentesque dui, non felis. Maecenas malesuada elit lectus felis, malesuada ultricies. Curabitur et ligula. Ut molestie a, ultricies porta urna. Vestibulum commodo volutpat a, convallis ac, laoreet enim. Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vesti",
+export const populateDB = () => {
+  const parser = new Parser();
+  fs.readFile(__dirname + "/run.gpx", function (err, data) {
+    parser.parseString(data, async function (err, result) {
+      try {
+        const gpx = new models.Gpx({
+          content: JSON.stringify(result),
+        });
+
+        await gpx.save();
+      } catch (e) {
+        console.error(e);
+      }
     });
-
-    await gpx.save();
-  } catch (e) {
-    console.error(e);
-  }
+  });
 };

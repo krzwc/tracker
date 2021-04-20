@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import type { GpxModel } from "../../lambda/models/gpx";
+import { Builder } from "xml2js";
 
 export const GET_GPXS = gql`
   query gpxs {
@@ -10,6 +11,8 @@ export const GET_GPXS = gql`
     }
   }
 `;
+
+const builder = new Builder();
 
 export default function App() {
   const { data, loading, error } = useQuery(GET_GPXS);
@@ -29,7 +32,7 @@ export default function App() {
       <ul>
         {data?.gpxs.map(({ content }: GpxModel, index: number) => (
           <li key={index}>
-            <pre>{content}</pre>
+            <pre>{builder.buildObject(JSON.parse(content))}</pre>
           </li>
         ))}
       </ul>
