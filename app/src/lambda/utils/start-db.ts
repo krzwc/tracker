@@ -15,8 +15,8 @@ export const startDB = (url = DATABASE_URL) => {
     })
     .then(async () => {
       if (eraseDatabaseOnSync) {
-        await Promise.all([models.Post.deleteMany({})]);
+        await Promise.all([models.Xml.deleteMany({})]);
+        populateDB();
       }
-      //populateDB();
     });
 };

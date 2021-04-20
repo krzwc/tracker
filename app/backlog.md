@@ -1,0 +1,2 @@
+- make sure db connection is shared between lambda calls
+- fix linting errors

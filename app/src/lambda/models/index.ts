@@ -1,5 +1,5 @@
-import Post from "./post";
+import { Xml } from "./xml";
 
 export const models = {
-  Post,
+  Xml,
 };
