@@ -12,8 +12,8 @@ const resolvers: IResolvers = {
     },
   },
   Mutation: {
-    createGpx: async (parent, { content }, { models }, info) => {
-      const gpx = await models.Gpx.create({ content });
+    createGpx: async (parent, { content, title }, { models }, info) => {
+      const gpx = await models.Gpx.create({ content, title });
       return gpx;
     },
   },

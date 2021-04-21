@@ -9,6 +9,7 @@ export const populateDB = () => {
       try {
         const gpx = new models.Gpx({
           content: JSON.stringify(result),
+          title: "Example",
         });
 
         await gpx.save();

@@ -4,6 +4,7 @@ const typeDefs = gql`
   type Gpx {
     id: ID!
     content: String!
+    title: String
   }
 
   type Query {
@@ -12,7 +13,7 @@ const typeDefs = gql`
   }
 
   type Mutation {
-    createGpx(content: String!): Gpx!
+    createGpx(content: String!, title: String): Gpx!
     deleteGpx(id: ID!): ID!
   }
 `;
