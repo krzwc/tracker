@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import type { GpxModel } from "../../lambda/models/gpx";
-import { Builder } from "xml2js";
+
 import { Map } from "../Map";
 
 export const GET_GPXS = gql`
@@ -13,8 +13,6 @@ export const GET_GPXS = gql`
     }
   }
 `;
-
-const builder = new Builder();
 
 export default function App() {
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
@@ -29,6 +27,7 @@ export default function App() {
       </>
     );
   }
+
   return (
     <div style={{ textAlign: "center" }}>
       {/* <ul>
@@ -39,7 +38,7 @@ export default function App() {
           </li>
         ))}
       </ul> */}
-      <Map />
+      {data && <Map gpx={data.gpxs[0].content} />}
     </div>
   );
 }

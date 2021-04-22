@@ -23,7 +23,8 @@
     "react": "^16.13.1",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.13.1",
-    "xml2js": "^0.4.23"
+    "xml2js": "^0.4.23",
+    "xmldom": "^0.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.6",
@@ -37,6 +38,7 @@
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.7",
     "@types/xml2js": "^0.4.8",
+    "@types/xmldom": "^0.1.30",
     "@typescript-eslint/eslint-plugin": "^3.0.0",
     "@typescript-eslint/parser": "^3.0.0",
     "awesome-typescript-loader": "^5.2.1",
