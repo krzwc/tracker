@@ -1,7 +1,6 @@
 {
   "name": "apollo-graphql-typescript",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
     "build:lambda": "tsc -p src/lambda/tsconfig.json",
     "build:client": "webpack --mode production",

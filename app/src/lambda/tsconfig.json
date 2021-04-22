@@ -1,17 +1,15 @@
 {
-    "compilerOptions": {
-        "sourceMap": true,
-        "noImplicitAny": true,
-        "module": "commonjs",
-        "target": "es6",
-        "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
-        "moduleResolution": "node",
-        "skipLibCheck": true,
-        "esModuleInterop": true,
-        "outDir": "./dist"
-    },
-    "include": [
-        "./graphql.ts"
-    ]
+  "compilerOptions": {
+    "sourceMap": true,
+    "noImplicitAny": true,
+    "module": "commonjs",
+    "target": "es6",
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "outDir": "./dist"
+  },
+  "include": ["./graphql.ts", "./rest.ts"]
 }

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "@apollo/client";
 import gql from "graphql-tag";
 import type { GpxModel } from "../../lambda/models/gpx";
