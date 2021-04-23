@@ -29,8 +29,8 @@ export const Map: FunctionComponent<{
       container: mapContainerRef.current,
       style:
         "https://api.maptiler.com/maps/97ad608b-151a-4a40-9e4f-64a55c304d2d/style.json?key=pTRwinTMAALKOrShrYPV",
-      center: [0, 0],
-      zoom: 1,
+      center: [lng, lat],
+      zoom: zoom,
     });
 
     map.on("move", () => {
@@ -59,6 +59,18 @@ export const Map: FunctionComponent<{
         },
       });
     });
+    fetch("/.netlify/functions/rest")
+      .then((res) => res.json())
+      .then((res) => {
+        const coordinates = res.features[0].geometry.coordinates;
+        const bounds = coordinates.reduce(function (bounds, coord) {
+          return bounds.extend(coord);
+        }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+        map.fitBounds(bounds, {
+          padding: 20,
+        });
+      });
 
     return () => map.remove();
   }, []);
