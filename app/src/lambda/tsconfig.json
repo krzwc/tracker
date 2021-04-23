@@ -11,5 +11,5 @@
     "esModuleInterop": true,
     "outDir": "./dist"
   },
-  "include": ["./graphql.ts", "./rest.ts"]
+  "include": ["./graphql.ts", "./rest.ts", "./index.d.ts"]
 }

@@ -1,14 +1,4 @@
 import React, { useRef, useEffect, useState, FunctionComponent } from "react";
-import * as converter from "@tmcw/togeojson";
-import { DOMParser } from "xmldom";
-import { Builder } from "xml2js";
-
-const parseGpx = (gpxString: string) => {
-  const gpxAsObj = new Builder().buildObject(JSON.parse(gpxString));
-  const parsedGPX = new DOMParser().parseFromString(gpxAsObj);
-  return JSON.stringify(converter.gpx(parsedGPX));
-};
-
 declare global {
   interface Window {
     mapboxgl: any;
@@ -23,7 +13,6 @@ export const Map: FunctionComponent<{
   const [lng, setLng] = useState(5);
   const [lat, setLat] = useState(34);
   const [zoom, setZoom] = useState(1.5);
-  const [geojson, setGeojson] = useState(() => parseGpx(gpx));
 
   // Initialize map when component mounts
   /* const map = new mapboxgl.Map({
@@ -34,7 +23,6 @@ export const Map: FunctionComponent<{
   }); */
 
   useEffect(() => {
-    console.log(geojson);
     const mapboxgl = window.mapboxgl;
     mapboxgl.accessToken = "pTRwinTMAALKOrShrYPV";
     const map = new mapboxgl.Map({
@@ -52,27 +40,28 @@ export const Map: FunctionComponent<{
     });
 
     map.on("load", () => {
-      map.addSource("ports", {
+      map.addSource("route", {
         type: "geojson",
-        // a reference to the converted data
-        // could come from a file, API, etc
         data: "/.netlify/functions/rest",
       });
 
       map.addLayer({
         id: "route",
-        type: "circle",
-        source: "ports",
+        type: "line",
+        source: "route",
+        layout: {
+          "line-join": "round",
+          "line-cap": "round",
+        },
         paint: {
-          "circle-radius": 5,
-          "circle-color": "#ff0000",
+          "line-color": "#888",
+          "line-width": 8,
         },
       });
     });
 
-    // Clean up on unmount
     return () => map.remove();
-  }, [geojson]);
+  }, []);
 
   return (
     <div
