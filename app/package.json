@@ -14,8 +14,12 @@
   "license": "MIT",
   "dependencies": {
     "@apollo/client": "^3.3.14",
+    "@chakra-ui/react": "^1.6.0",
+    "@emotion/react": "^11.1.5",
+    "@emotion/styled": "^11.3.0",
     "@tmcw/togeojson": "^4.4.0",
     "apollo-server-lambda": "^2.23.0",
+    "framer-motion": "^4.1.9",
     "graphql": "^15.0.0",
     "graphql-tag": "^2.10.3",
     "mongoose": "^5.12.4",
@@ -23,6 +27,8 @@
     "react": "^16.13.1",
     "react-apollo": "^2.5.8",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^7.2.3",
+    "react-icons": "^4.2.0",
     "xml2js": "^0.4.23",
     "xmldom": "^0.6.0"
   },
