@@ -26,7 +26,21 @@ export default function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  const onSubmit = handleSubmit((data) => console.log("On Submit: ", data));
+  let readXml = null;
+  const onSubmit = handleSubmit((data) => {
+    // console.log("On Submit: ", data);
+    const formData = new FormData();
+    formData.append("file", data.file_[0]);
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      readXml = e.target.result;
+      // console.log(readXml);
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(readXml as string, "application/xml");
+      console.log(doc);
+    };
+    reader.readAsText(data.file_[0]);
+  });
 
   const validateFiles = (value: FileList) => {
     if (value.length < 1) {
@@ -66,12 +80,12 @@ export default function App() {
         ))}
       </ul> */}
         {/* {data && <Map gpx={data.gpxs[0].content} />} */}
-        <form onSubmit={onSubmit}>
+        <form onSubmit={onSubmit} encType="multipart/form-data">
           <FormControl isInvalid={!!errors.file_} isRequired>
             <FormLabel>{"File input"}</FormLabel>
 
             <FileUploader
-              accept={"image/*"}
+              accept=".gpx"
               multiple
               register={register("file_", { validate: validateFiles })}
             >

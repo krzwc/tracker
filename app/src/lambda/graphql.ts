@@ -35,6 +35,22 @@ type HandlerFunction = (
 ) => void;
 
 export const handler: HandlerFunction = (event, context, callback) => {
+  if (Object.keys(event.headers).includes("Content-Type")) {
+    event.headers["content-type"] = event.headers["Content-Type"];
+  }
+
+  if (
+    event.isBase64Encoded &&
+    event.body &&
+    !event.headers["content-type"].includes("multipart/form-data")
+  ) {
+    event = {
+      ...event,
+      body: Buffer.from(event.body, "base64").toString(),
+      isBase64Encoded: false,
+    };
+    console.log(event);
+  }
   // re-using `conn` between function calls.
   // See https://www.mongodb.com/blog/post/serverless-development-with-nodejs-aws-lambda-mongodb-atlas
   context.callbackWaitsForEmptyEventLoop = false;

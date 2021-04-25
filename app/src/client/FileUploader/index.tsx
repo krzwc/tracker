@@ -21,7 +21,7 @@ export const FileUploader = (props: FileUploadProps) => {
   return (
     <InputGroup onClick={handleClick}>
       <input
-        type={"file"}
+        type="file"
         multiple={multiple || false}
         hidden
         accept={accept}
