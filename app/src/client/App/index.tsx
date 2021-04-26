@@ -1,5 +1,5 @@
 import React from "react";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Button,
   FormControl,
@@ -10,12 +10,13 @@ import {
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FiFile } from "react-icons/fi";
+import * as converter from "@tmcw/togeojson";
 
 import type { GpxModel } from "../../lambda/models/gpx";
 
 import { Map } from "../Map";
 import { FileUploader } from "../FileUploader";
-import { GET_GPXS } from "./queries";
+import { GET_GPXS, CREATE_GPXS } from "./gql";
 
 type FormValues = {
   file_: FileList;
@@ -33,11 +34,11 @@ export default function App() {
     formData.append("file", data.file_[0]);
     const reader = new FileReader();
     reader.onload = function (e) {
-      readXml = e.target.result;
-      // console.log(readXml);
+      readXml = e.target.result as string;
       const parser = new DOMParser();
-      const doc = parser.parseFromString(readXml as string, "application/xml");
-      console.log(doc);
+      const parsedGPX = parser.parseFromString(readXml, "application/xml");
+      const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
+      createGpx({ variables: { content: gpxAsGeojson, title: "example" } });
     };
     reader.readAsText(data.file_[0]);
   });
@@ -56,6 +57,9 @@ export default function App() {
     return true;
   };
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
+  const [createGpx] = useMutation<{
+    createGpx: GpxModel;
+  }>(CREATE_GPXS);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -70,35 +74,29 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <div style={{ textAlign: "center" }}>
-        {/* <ul>
-        {data?.gpxs.map(({ content, title }, index: number) => (
-          <li key={index}>
-            <h3>{title}</h3>
-            <pre>{builder.buildObject(JSON.parse(content))}</pre>
-          </li>
-        ))}
-      </ul> */}
-        {/* {data && <Map gpx={data.gpxs[0].content} />} */}
-        <form onSubmit={onSubmit} encType="multipart/form-data">
-          <FormControl isInvalid={!!errors.file_} isRequired>
-            <FormLabel>{"File input"}</FormLabel>
+      <div style={{ textAlign: "center", display: "relative" }}>
+        {data?.gpxs[0]?.content && <Map gpx={data.gpxs[0].content} />}
+        <div style={{ display: "absolute", height: "100vh", zIndex: 10 }}>
+          <form onSubmit={onSubmit}>
+            <FormControl isInvalid={!!errors.file_} isRequired>
+              <FormLabel>{"File input"}</FormLabel>
 
-            <FileUploader
-              accept=".gpx"
-              multiple
-              register={register("file_", { validate: validateFiles })}
-            >
-              <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
-            </FileUploader>
+              <FileUploader
+                accept=".gpx"
+                multiple
+                register={register("file_", { validate: validateFiles })}
+              >
+                <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
+              </FileUploader>
 
-            <FormErrorMessage>
-              {errors.file_ && errors?.file_.message}
-            </FormErrorMessage>
-          </FormControl>
+              <FormErrorMessage>
+                {errors.file_ && errors?.file_.message}
+              </FormErrorMessage>
+            </FormControl>
 
-          <button>Submit</button>
-        </form>
+            <Button type="submit">Submit</Button>
+          </form>
+        </div>
       </div>
     </ChakraProvider>
   );

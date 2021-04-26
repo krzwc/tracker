@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { DATABASE_URL } from "../config";
 import { models } from "../models";
-import { populateDB } from "./populate-db";
 
 const eraseDatabaseOnSync = false;
 
@@ -16,7 +15,6 @@ export const startDB = (url = DATABASE_URL) => {
     .then(async () => {
       if (eraseDatabaseOnSync) {
         await Promise.all([models.Gpx.deleteMany({})]);
-        await populateDB();
       }
     });
 };

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, FunctionComponent } from "react";
+
 declare global {
   interface Window {
     mapboxgl: any;
@@ -13,14 +14,6 @@ export const Map: FunctionComponent<{
   const [lng, setLng] = useState(5);
   const [lat, setLat] = useState(34);
   const [zoom, setZoom] = useState(1.5);
-
-  // Initialize map when component mounts
-  /* const map = new mapboxgl.Map({
-    container: mapContainerRef.current,
-    style: `https://api.maptiler.com/maps/97ad608b-151a-4a40-9e4f-64a55c304d2d/style.json?key=pTRwinTMAALKOrShrYPV`,
-    center: [lng, lat],
-    zoom: zoom,
-  }); */
 
   useEffect(() => {
     const mapboxgl = window.mapboxgl;

@@ -12,11 +12,11 @@ const GET_GPXS = `
   }
 `;
 
-const parseGpx = (gpxString: string): string => {
+/* const parseGpx = (gpxString: string): string => {
   const gpxAsObj = new Builder().buildObject(JSON.parse(gpxString));
   const parsedGPX = new DOMParser().parseFromString(gpxAsObj);
   return JSON.stringify(converter.gpx(parsedGPX));
-};
+}; */
 
 export const handler = async function (event, context) {
   const fetchResult = await fetch(
@@ -33,6 +33,6 @@ export const handler = async function (event, context) {
 
   return {
     statusCode: 200,
-    body: parseGpx(responseJson.data.gpxs[0].content),
+    body: responseJson.data.gpxs[0].content,
   };
 };
