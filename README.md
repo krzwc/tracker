@@ -2,4 +2,8 @@
 
 # Backlog
 
+- list available gpxs already in the db
+- option to load them
+- optimistic response
+- improve ui
 - microfrontend arch

@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState, FunctionComponent } from "react";
+import { FeatureCollection, LineString } from "geojson";
 
 declare global {
   interface Window {
@@ -54,9 +55,9 @@ export const Map: FunctionComponent<{
     });
     fetch("/.netlify/functions/rest")
       .then((res) => res.json())
-      .then((res) => {
+      .then((res: FeatureCollection<LineString>) => {
         const coordinates = res.features[0].geometry.coordinates;
-        const bounds = coordinates.reduce(function (bounds, coord) {
+        const bounds = coordinates.reduce((bounds, coord) => {
           return bounds.extend(coord);
         }, new mapboxgl.LngLatBounds(coordinates[0], coordinates[0]));
 

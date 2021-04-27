@@ -59,7 +59,7 @@ export default function App() {
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
   const [createGpx] = useMutation<{
     createGpx: GpxModel;
-  }>(CREATE_GPXS);
+  }>(CREATE_GPXS, { refetchQueries: [{ query: GET_GPXS }] });
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -76,7 +76,7 @@ export default function App() {
     <ChakraProvider>
       <div style={{ textAlign: "center", display: "relative" }}>
         {data?.gpxs[0]?.content && <Map gpx={data.gpxs[0].content} />}
-        <div style={{ display: "absolute", height: "100vh", zIndex: 10 }}>
+        <div style={{ display: "absolute", height: "100vh" }}>
           <form onSubmit={onSubmit}>
             <FormControl isInvalid={!!errors.file_} isRequired>
               <FormLabel>{"File input"}</FormLabel>

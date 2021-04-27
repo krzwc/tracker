@@ -2,6 +2,7 @@ import * as converter from "@tmcw/togeojson";
 import { DOMParser } from "xmldom";
 import { Builder } from "xml2js";
 import fetch from "node-fetch";
+import { APIGatewayProxyEvent, Context } from "aws-lambda";
 
 const GET_GPXS = `
   query gpxs {
@@ -18,7 +19,10 @@ const GET_GPXS = `
   return JSON.stringify(converter.gpx(parsedGPX));
 }; */
 
-export const handler = async function (event, context) {
+export const handler = async function (
+  event: APIGatewayProxyEvent,
+  context: Context
+) {
   const fetchResult = await fetch(
     "http://localhost:3000/.netlify/functions/graphql",
     {
