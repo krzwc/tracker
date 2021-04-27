@@ -6,4 +6,5 @@
 - option to load them
 - optimistic response
 - improve ui
+- notifications
 - microfrontend arch

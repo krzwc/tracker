@@ -7,6 +7,15 @@ import {
   FormLabel,
   Icon,
   ChakraProvider,
+  VStack,
+  Box,
+  Wrap,
+  WrapItem,
+  Container,
+  Flex,
+  Center,
+  Text,
+  Spacer,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FiFile } from "react-icons/fi";
@@ -27,14 +36,12 @@ export default function App() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValues>();
-  let readXml = null;
   const onSubmit = handleSubmit((data) => {
-    // console.log("On Submit: ", data);
     const formData = new FormData();
     formData.append("file", data.file_[0]);
     const reader = new FileReader();
     reader.onload = function (e) {
-      readXml = e.target.result as string;
+      const readXml = e.target.result as string;
       const parser = new DOMParser();
       const parsedGPX = parser.parseFromString(readXml, "application/xml");
       const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
@@ -74,28 +81,49 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <div style={{ textAlign: "center", display: "relative" }}>
-        {data?.gpxs[0]?.content && <Map gpx={data.gpxs[0].content} />}
-        <div style={{ display: "absolute", height: "100vh" }}>
-          <form onSubmit={onSubmit}>
-            <FormControl isInvalid={!!errors.file_} isRequired>
-              <FormLabel>{"File input"}</FormLabel>
+      <div style={{ textAlign: "center" }}>
+        {/* {data?.gpxs[0]?.content && <Map gpx={data.gpxs[0].content} />} */}
+        <div style={{ height: "100vh" }}>
+          <VStack w={350} p={4} m={20} spacing={4} align="stretch">
+            <form onSubmit={onSubmit}>
+              <Flex>
+                <FormControl isInvalid={!!errors.file_} isRequired>
+                  <Box>
+                    <FormLabel>{"File input"}</FormLabel>
+                  </Box>
+                  <Box>
+                    <FileUploader
+                      accept=".gpx"
+                      multiple
+                      register={register("file_", { validate: validateFiles })}
+                    >
+                      <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
+                    </FileUploader>
+                  </Box>
+                  <FormErrorMessage>
+                    {errors.file_ && errors?.file_.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <Box alignSelf="flex-end">
+                  <Button type="submit" variant="outline">
+                    Submit
+                  </Button>
+                </Box>
+              </Flex>
+            </form>
 
-              <FileUploader
-                accept=".gpx"
-                multiple
-                register={register("file_", { validate: validateFiles })}
-              >
-                <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
-              </FileUploader>
-
-              <FormErrorMessage>
-                {errors.file_ && errors?.file_.message}
-              </FormErrorMessage>
-            </FormControl>
-
-            <Button type="submit">Submit</Button>
-          </form>
+            <VStack>
+              {data.gpxs.map(({ title, id }) => {
+                return (
+                  <Flex key={id} width="100%" align="center" justify="center">
+                    <Text style={{ textTransform: "capitalize" }}>{title}</Text>
+                    <Spacer />
+                    <Button>Load</Button>
+                  </Flex>
+                );
+              })}
+            </VStack>
+          </VStack>
         </div>
       </div>
     </ChakraProvider>

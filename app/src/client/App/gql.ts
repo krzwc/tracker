@@ -5,6 +5,7 @@ export const GET_GPXS = gql`
     gpxs {
       content
       title
+      id
     }
   }
 `;
