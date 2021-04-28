@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Button,
@@ -9,11 +9,7 @@ import {
   ChakraProvider,
   VStack,
   Box,
-  Wrap,
-  WrapItem,
-  Container,
   Flex,
-  Center,
   Text,
   Spacer,
 } from "@chakra-ui/react";
@@ -30,6 +26,21 @@ import { GET_GPXS, CREATE_GPXS } from "./gql";
 type FormValues = {
   file_: FileList;
 };
+
+const validateFiles = (value: FileList) => {
+  if (value.length < 1) {
+    return "Files is required";
+  }
+  for (const file of Array.from(value)) {
+    const fsMb = file.size / (1024 * 1024);
+    const MAX_FILE_SIZE = 10;
+    if (fsMb > MAX_FILE_SIZE) {
+      return "Max file size 10mb";
+    }
+  }
+  return true;
+};
+
 export default function App() {
   const {
     register,
@@ -50,23 +61,11 @@ export default function App() {
     reader.readAsText(data.file_[0]);
   });
 
-  const validateFiles = (value: FileList) => {
-    if (value.length < 1) {
-      return "Files is required";
-    }
-    for (const file of Array.from(value)) {
-      const fsMb = file.size / (1024 * 1024);
-      const MAX_FILE_SIZE = 10;
-      if (fsMb > MAX_FILE_SIZE) {
-        return "Max file size 10mb";
-      }
-    }
-    return true;
-  };
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
   const [createGpx] = useMutation<{
     createGpx: GpxModel;
   }>(CREATE_GPXS, { refetchQueries: [{ query: GET_GPXS }] });
+  const [loadedGpxId, setLoadedGpxId] = useState(data?.gpxs[0]?.id);
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -82,9 +81,10 @@ export default function App() {
   return (
     <ChakraProvider>
       <div style={{ textAlign: "center" }}>
-        {/* {data?.gpxs[0]?.content && <Map gpx={data.gpxs[0].content} />} */}
-        <div style={{ height: "100vh" }}>
-          <VStack w={350} p={4} m={20} spacing={4} align="stretch">
+        {console.log(loadedGpxId)}
+        {loadedGpxId && <Map id={loadedGpxId} />}
+        <Box style={{ height: "100vh" }}>
+          <VStack w={350} p={4} spacing={4} align="stretch">
             <form onSubmit={onSubmit}>
               <Flex>
                 <FormControl isInvalid={!!errors.file_} isRequired>
@@ -105,7 +105,7 @@ export default function App() {
                   </FormErrorMessage>
                 </FormControl>
                 <Box alignSelf="flex-end">
-                  <Button type="submit" variant="outline">
+                  <Button type="submit" colorScheme="yellow">
                     Submit
                   </Button>
                 </Box>
@@ -116,15 +116,20 @@ export default function App() {
               {data.gpxs.map(({ title, id }) => {
                 return (
                   <Flex key={id} width="100%" align="center" justify="center">
-                    <Text style={{ textTransform: "capitalize" }}>{title}</Text>
+                    <Text
+                      fontWeight={600}
+                      style={{ textTransform: "capitalize", zIndex: 2 }}
+                    >
+                      {title}
+                    </Text>
                     <Spacer />
-                    <Button>Load</Button>
+                    <Button onClick={() => setLoadedGpxId(id)}>Load</Button>
                   </Flex>
                 );
               })}
             </VStack>
           </VStack>
-        </div>
+        </Box>
       </div>
     </ChakraProvider>
   );

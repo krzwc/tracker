@@ -4,11 +4,12 @@ import { Builder } from "xml2js";
 import fetch from "node-fetch";
 import { APIGatewayProxyEvent, Context } from "aws-lambda";
 
-const GET_GPXS = `
-  query gpxs {
-    gpxs {
-      content
+const GET_GPX = `
+  query getGpx($id: ID!) {
+    gpx(id: $id) {
       title
+      content
+      id
     }
   }
 `;
@@ -23,6 +24,8 @@ export const handler = async function (
   event: APIGatewayProxyEvent,
   context: Context
 ) {
+  const { id } = event.queryStringParameters;
+
   const fetchResult = await fetch(
     "http://localhost:3000/.netlify/functions/graphql",
     {
@@ -30,13 +33,13 @@ export const handler = async function (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ query: GET_GPXS }),
+      body: JSON.stringify({ query: GET_GPX, variables: { id } }),
     }
   );
   const responseJson = await fetchResult.json();
 
   return {
     statusCode: 200,
-    body: responseJson.data.gpxs[0].content,
+    body: responseJson.data.gpx.content,
   };
 };

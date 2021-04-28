@@ -8,10 +8,9 @@ declare global {
 }
 
 export const Map: FunctionComponent<{
-  gpx: string;
-}> = ({ gpx }) => {
+  id: string;
+}> = ({ id }) => {
   const mapContainerRef = useRef(null);
-
   const [lng, setLng] = useState(5);
   const [lat, setLat] = useState(34);
   const [zoom, setZoom] = useState(1.5);
@@ -36,7 +35,7 @@ export const Map: FunctionComponent<{
     map.on("load", () => {
       map.addSource("route", {
         type: "geojson",
-        data: "/.netlify/functions/rest",
+        data: `/.netlify/functions/rest?id=${id}`,
       });
 
       map.addLayer({
@@ -53,7 +52,7 @@ export const Map: FunctionComponent<{
         },
       });
     });
-    fetch("/.netlify/functions/rest")
+    fetch(`/.netlify/functions/rest?id=${id}`)
       .then((res) => res.json())
       .then((res: FeatureCollection<LineString>) => {
         const coordinates = res.features[0].geometry.coordinates;
