@@ -66,7 +66,7 @@ export const Map: FunctionComponent<{
       });
 
     return () => map.remove();
-  }, []);
+  }, [id]);
 
   return (
     <div

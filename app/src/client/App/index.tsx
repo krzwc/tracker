@@ -81,7 +81,6 @@ export default function App() {
   return (
     <ChakraProvider>
       <div style={{ textAlign: "center" }}>
-        {console.log(loadedGpxId)}
         {loadedGpxId && <Map id={loadedGpxId} />}
         <Box style={{ height: "100vh" }}>
           <VStack w={350} p={4} spacing={4} align="stretch">
