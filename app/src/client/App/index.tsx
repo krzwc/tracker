@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Button,
@@ -65,7 +65,12 @@ export default function App() {
   const [createGpx] = useMutation<{
     createGpx: GpxModel;
   }>(CREATE_GPXS, { refetchQueries: [{ query: GET_GPXS }] });
-  const [loadedGpxId, setLoadedGpxId] = useState(data?.gpxs[0]?.id);
+  const [loadedGpxId, setLoadedGpxId] = useState("");
+  useEffect(() => {
+    if (!loadedGpxId) {
+      setLoadedGpxId(data?.gpxs[0]?.id); // use reactive graphql var
+    }
+  });
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -80,7 +85,9 @@ export default function App() {
 
   return (
     <ChakraProvider>
+      {console.log(loadedGpxId)}
       <div style={{ textAlign: "center" }}>
+        {console.log(loadedGpxId)}
         {loadedGpxId && <Map id={loadedGpxId} />}
         <Box style={{ height: "100vh" }}>
           <VStack w={350} p={4} spacing={4} align="stretch">
