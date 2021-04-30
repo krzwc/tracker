@@ -3,6 +3,7 @@ import { DOMParser } from "xmldom";
 import { Builder } from "xml2js";
 import fetch from "node-fetch";
 import { APIGatewayProxyEvent, Context } from "aws-lambda";
+import { URL } from "./config";
 
 const GET_GPX = `
   query getGpx($id: ID!) {
@@ -26,16 +27,13 @@ export const handler = async function (
 ) {
   const { id } = event.queryStringParameters;
 
-  const fetchResult = await fetch(
-    "http://localhost:3000/.netlify/functions/graphql",
-    {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query: GET_GPX, variables: { id } }),
-    }
-  );
+  const fetchResult = await fetch(`${URL}/.netlify/functions/graphql`, {
+    method: "post",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ query: GET_GPX, variables: { id } }),
+  });
   const responseJson = await fetchResult.json();
 
   return {
