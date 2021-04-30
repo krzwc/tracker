@@ -1,5 +1,5 @@
 schema:
-    - "src/lambda/schema/**/*.schema.ts"
+  - "src/lambda/schema/**/*.ts"
 generates:
   ./src/generated/types.d.ts:
     plugins:
