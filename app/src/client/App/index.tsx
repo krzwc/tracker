@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Button,
+  CloseButton,
   FormControl,
   FormErrorMessage,
   FormLabel,
@@ -53,11 +54,15 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const readXml = e.target.result as string;
-      console.log(readXml);
+      const title = readXml.slice(
+        readXml.indexOf("<name>") + 6,
+        readXml.indexOf("/name>") - 1
+      );
       const parser = new DOMParser();
       const parsedGPX = parser.parseFromString(readXml, "application/xml");
-      const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
-      createGpx({ variables: { content: gpxAsGeojson, title: "example" } });
+      const gpxConvertedToGeojson = converter.gpx(parsedGPX);
+      const gpxAsGeojson = JSON.stringify(gpxConvertedToGeojson);
+      createGpx({ variables: { content: gpxAsGeojson, title } });
     };
     reader.readAsText(data.file_[0]);
   });
@@ -90,7 +95,7 @@ export default function App() {
   return (
     <ChakraProvider>
       <div style={{ textAlign: "center" }}>
-        {loadedGpxId && <Map id={loadedGpxId} />}
+        {/* {loadedGpxId && <Map id={loadedGpxId} />} */}
         <Box style={{ height: "100vh" }}>
           <VStack w={350} p={4} spacing={4} align="stretch">
             <form onSubmit={onSubmit}>
@@ -124,12 +129,13 @@ export default function App() {
               {data.gpxs.map(({ title, id }) => {
                 return (
                   <Flex key={id} width="100%" align="center" justify="center">
-                    <Button
-                      variant="ghost"
+                    <CloseButton
+                      size="lg"
+                      style={{ zIndex: 2 }}
                       onClick={() => deleteGpx({ variables: { id } })}
                     >
                       x
-                    </Button>
+                    </CloseButton>
                     <Text
                       fontWeight={600}
                       style={{ textTransform: "capitalize", zIndex: 2 }}
