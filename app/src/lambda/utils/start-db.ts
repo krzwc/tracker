@@ -1,3 +1,6 @@
+import { config } from "dotenv";
+config();
+
 import mongoose from "mongoose";
 import { DATABASE_URL } from "../config";
 import { models } from "../models";
