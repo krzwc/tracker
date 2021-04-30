@@ -10,12 +10,18 @@ export const GET_GPXS = gql`
   }
 `;
 
-export const CREATE_GPXS = gql`
+export const CREATE_GPX = gql`
   mutation createGpx($content: String!, $title: String) {
     createGpx(content: $content, title: $title) {
       title
       content
       id
     }
+  }
+`;
+
+export const DELETE_GPX = gql`
+  mutation deleteGpx($id: ID!) {
+    deleteGpx(id: $id)
   }
 `;

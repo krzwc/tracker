@@ -16,6 +16,11 @@ const resolvers: IResolvers = {
       const gpx = await models.Gpx.create({ content, title });
       return gpx;
     },
+    deleteGpx: async (parent, { id }, { models }, info) => {
+      const gpx = await models.Gpx.findOneAndDelete({ _id: id }).exec();
+      console.log(gpx);
+      return gpx._id;
+    },
   },
 };
 

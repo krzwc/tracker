@@ -2,8 +2,9 @@
 
 # Backlog
 
-- list available gpxs already in the db
-- option to load them
+- removing gpxes
+- gpx title
+- production db
 - optimistic response
 - improve ui
 - notifications

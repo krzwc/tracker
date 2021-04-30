@@ -21,7 +21,7 @@ import type { GpxModel } from "../../lambda/models/gpx";
 
 import { Map } from "../Map";
 import { FileUploader } from "../FileUploader";
-import { GET_GPXS, CREATE_GPXS } from "./gql";
+import { GET_GPXS, CREATE_GPX, DELETE_GPX } from "./gql";
 
 type FormValues = {
   file_: FileList;
@@ -53,6 +53,7 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const readXml = e.target.result as string;
+      console.log(readXml);
       const parser = new DOMParser();
       const parsedGPX = parser.parseFromString(readXml, "application/xml");
       const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
@@ -64,11 +65,14 @@ export default function App() {
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
   const [createGpx] = useMutation<{
     createGpx: GpxModel;
-  }>(CREATE_GPXS, { refetchQueries: [{ query: GET_GPXS }] });
+  }>(CREATE_GPX, { refetchQueries: [{ query: GET_GPXS }] });
+  const [deleteGpx] = useMutation<GpxModel["id"]>(DELETE_GPX, {
+    refetchQueries: [{ query: GET_GPXS }],
+  });
   const [loadedGpxId, setLoadedGpxId] = useState("");
   useEffect(() => {
     if (!loadedGpxId) {
-      setLoadedGpxId(data?.gpxs[0]?.id); // use reactive graphql var
+      setLoadedGpxId(data?.gpxs[0]?.id);
     }
   });
   if (loading) {
@@ -85,9 +89,7 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      {console.log(loadedGpxId)}
       <div style={{ textAlign: "center" }}>
-        {console.log(loadedGpxId)}
         {loadedGpxId && <Map id={loadedGpxId} />}
         <Box style={{ height: "100vh" }}>
           <VStack w={350} p={4} spacing={4} align="stretch">
@@ -122,6 +124,12 @@ export default function App() {
               {data.gpxs.map(({ title, id }) => {
                 return (
                   <Flex key={id} width="100%" align="center" justify="center">
+                    <Button
+                      variant="ghost"
+                      onClick={() => deleteGpx({ variables: { id } })}
+                    >
+                      x
+                    </Button>
                     <Text
                       fontWeight={600}
                       style={{ textTransform: "capitalize", zIndex: 2 }}
