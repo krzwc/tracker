@@ -13,6 +13,8 @@ import {
   Flex,
   Text,
   Spacer,
+  Spinner,
+  Center,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { FiFile } from "react-icons/fi";
@@ -54,14 +56,14 @@ export default function App() {
     const reader = new FileReader();
     reader.onload = function (e) {
       const readXml = e.target.result as string;
-      const title = readXml.slice(
-        readXml.indexOf("<name>") + 6,
-        readXml.indexOf("/name>") - 1
-      );
+      const title =
+        readXml.slice(
+          readXml.indexOf("<name>") + 6,
+          readXml.indexOf("/name>") - 1
+        ) || "";
       const parser = new DOMParser();
       const parsedGPX = parser.parseFromString(readXml, "application/xml");
-      const gpxConvertedToGeojson = converter.gpx(parsedGPX);
-      const gpxAsGeojson = JSON.stringify(gpxConvertedToGeojson);
+      const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
       createGpx({ variables: { content: gpxAsGeojson, title } });
     };
     reader.readAsText(data.file_[0]);
@@ -81,7 +83,11 @@ export default function App() {
     }
   });
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Center h="100vh" w="100vw">
+        <Spinner size="lg" />
+      </Center>
+    );
   }
   if (error) {
     return (
@@ -139,6 +145,7 @@ export default function App() {
                     <Text
                       fontWeight={600}
                       style={{ textTransform: "capitalize", zIndex: 2 }}
+                      isTruncated
                     >
                       {title}
                     </Text>

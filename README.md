@@ -2,11 +2,15 @@
 
 # Backlog
 
-- removing gpxes
-- gpx title
-- production db
+- readme
+- refactor
+- all styles to chakra
+- maptiler key to env vars
+- title edition
+- title ellipsis
+- loader
 - optimistic response
-- improve ui
+- more responsive ui
 - notifications
 - microfrontend arch
 
