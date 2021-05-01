@@ -1,6 +1,6 @@
-import React, { ReactNode, useRef } from "react";
-import { InputGroup } from "@chakra-ui/react";
-import { UseFormRegisterReturn } from "react-hook-form";
+import React, { ReactNode, useRef } from 'react';
+import { InputGroup } from '@chakra-ui/react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 type FileUploadProps = {
   register: UseFormRegisterReturn;
