@@ -1,9 +1,9 @@
-import { config } from "dotenv";
+import { config } from 'dotenv';
 config();
 
-import mongoose from "mongoose";
-import { DATABASE_URL } from "../config";
-import { models } from "../models";
+import mongoose from 'mongoose';
+import { DATABASE_URL } from '../config';
+import { models } from '../models';
 
 const eraseDatabaseOnSync = false;
 

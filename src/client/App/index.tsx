@@ -134,63 +134,61 @@ export default function App() {
 
   return (
     <ChakraProvider>
-      <div style={{ textAlign: 'center' }}>
-        {loadedGpxId && <Map id={loadedGpxId} />}
-        {showNotification && notify()}
-        <Box style={{ height: '100vh' }}>
-          <VStack w={350} p={4} spacing={4} align="stretch">
-            <form onSubmit={onSubmit}>
-              <Flex>
-                <FormControl isInvalid={!!errors.file_} isRequired>
-                  <Box>
-                    <FormLabel>File input</FormLabel>
-                  </Box>
-                  <Box>
-                    <FileUploader
-                      accept=".gpx"
-                      multiple
-                      register={register('file_', { validate: validateFiles })}
-                    >
-                      <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
-                    </FileUploader>
-                  </Box>
-                  <FormErrorMessage>
-                    {errors.file_ && errors?.file_.message}
-                  </FormErrorMessage>
-                </FormControl>
-                <Box alignSelf="flex-end">
-                  <Button type="submit" colorScheme="yellow">
-                    Submit
-                  </Button>
+      {loadedGpxId && <Map id={loadedGpxId} />}
+      {showNotification && notify()}
+      <Box style={{ height: '100vh' }}>
+        <VStack w={350} p={4} spacing={4} align="stretch">
+          <form onSubmit={onSubmit}>
+            <Flex>
+              <FormControl isInvalid={Boolean(errors.file_)} isRequired>
+                <Box>
+                  <FormLabel>File input</FormLabel>
                 </Box>
-              </Flex>
-            </form>
+                <Box>
+                  <FileUploader
+                    accept=".gpx"
+                    multiple
+                    register={register('file_', { validate: validateFiles })}
+                  >
+                    <Button leftIcon={<Icon as={FiFile} />}>Upload</Button>
+                  </FileUploader>
+                </Box>
+                <FormErrorMessage>
+                  {errors.file_ && errors?.file_.message}
+                </FormErrorMessage>
+              </FormControl>
+              <Box alignSelf="flex-end">
+                <Button type="submit" colorScheme="yellow">
+                  Submit
+                </Button>
+              </Box>
+            </Flex>
+          </form>
 
-            <VStack>
-              {data.gpxs.map(({ title, id }) => (
-                <Flex key={id} width="100%" align="center" justify="center">
-                  <CloseButton
-                    size="lg"
-                    style={{ zIndex: 2 }}
-                    onClick={() => deleteGpx({ variables: { id } })}
-                  >
-                    x
-                  </CloseButton>
-                  <Text
-                    fontWeight={600}
-                    style={{ textTransform: 'capitalize', zIndex: 2 }}
-                    isTruncated
-                  >
-                    {title}
-                  </Text>
-                  <Spacer />
-                  <Button onClick={() => setLoadedGpxId(id)}>Load</Button>
-                </Flex>
-              ))}
-            </VStack>
+          <VStack>
+            {data.gpxs.map(({ title, id }) => (
+              <Flex key={id} width="100%" align="center" justify="center">
+                <CloseButton
+                  size="lg"
+                  style={{ zIndex: 2 }}
+                  onClick={() => deleteGpx({ variables: { id } })}
+                >
+                  x
+                </CloseButton>
+                <Text
+                  fontWeight={600}
+                  style={{ textTransform: 'capitalize', zIndex: 2 }}
+                  isTruncated
+                >
+                  {title}
+                </Text>
+                <Spacer />
+                <Button onClick={() => setLoadedGpxId(id)}>Load</Button>
+              </Flex>
+            ))}
           </VStack>
-        </Box>
-      </div>
+        </VStack>
+      </Box>
     </ChakraProvider>
   );
 }
