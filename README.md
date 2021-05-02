@@ -12,6 +12,7 @@
 - optimistic response
 - more responsive ui
 - microfrontend arch
+- remove overfetched data from graphql queries
 
 Playground served locally from:
 http://localhost:3000/.netlify/functions/graphql
