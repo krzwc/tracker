@@ -1,9 +1,6 @@
-import * as converter from "@tmcw/togeojson";
-import { DOMParser } from "xmldom";
-import { Builder } from "xml2js";
-import fetch from "node-fetch";
-import { APIGatewayProxyEvent, Context } from "aws-lambda";
-import { URL } from "./config";
+import fetch from 'node-fetch';
+import { APIGatewayProxyEvent } from 'aws-lambda';
+import { URL } from './config';
 
 const GET_GPX = `
   query getGpx($id: ID!) {
@@ -15,22 +12,13 @@ const GET_GPX = `
   }
 `;
 
-/* const parseGpx = (gpxString: string): string => {
-  const gpxAsObj = new Builder().buildObject(JSON.parse(gpxString));
-  const parsedGPX = new DOMParser().parseFromString(gpxAsObj);
-  return JSON.stringify(converter.gpx(parsedGPX));
-}; */
-
-export const handler = async function (
-  event: APIGatewayProxyEvent,
-  context: Context
-) {
+export const handler = async function (event: APIGatewayProxyEvent) {
   const { id } = event.queryStringParameters;
 
   const fetchResult = await fetch(`${URL}/.netlify/functions/graphql`, {
-    method: "post",
+    method: 'post',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({ query: GET_GPX, variables: { id } }),
   });

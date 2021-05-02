@@ -1,14 +1,14 @@
-import { ApolloServer } from "apollo-server-lambda";
-import resolvers from "./resolvers";
-import typeDefs from "./schema";
-import { models } from "./models";
-import { startDB } from "./utils/start-db";
+import { ApolloServer } from 'apollo-server-lambda';
+import resolvers from './resolvers';
+import typeDefs from './schema';
+import { models } from './models';
+import { startDB } from './utils/start-db';
 import {
   APIGatewayProxyEvent,
   Context,
   APIGatewayProxyResult,
   Callback,
-} from "aws-lambda";
+} from 'aws-lambda';
 
 let conn: Promise<void> = null;
 const server = new ApolloServer({
@@ -23,7 +23,7 @@ const server = new ApolloServer({
 
 const graphQLHandler = server.createHandler({
   cors: {
-    origin: "*",
+    origin: '*',
     credentials: true,
   },
 });

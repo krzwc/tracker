@@ -1,1 +1,1 @@
-declare module "@tmcw/togeojson";
+declare module '@tmcw/togeojson';

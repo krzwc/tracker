@@ -1,4 +1,4 @@
-import { Gpx } from "./gpx";
+import { Gpx } from './gpx';
 
 export const models = {
   Gpx,

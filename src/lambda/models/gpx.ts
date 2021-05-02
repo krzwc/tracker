@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export type GpxModel = mongoose.Document & {
   content: string;
@@ -17,4 +17,4 @@ const GpxSchema = new mongoose.Schema({
   },
 });
 
-export const Gpx = mongoose.model<GpxModel>("gpx", GpxSchema);
+export const Gpx = mongoose.model<GpxModel>('gpx', GpxSchema);
