@@ -73,7 +73,7 @@ export default function App() {
     const formData = new FormData();
     formData.append('file', data.file_[0]);
     const reader = new FileReader();
-    reader.onload = function (e) {
+    reader.addEventListener('load', (e) => {
       const readXml = e.target.result as string;
       const title =
         readXml.slice(
@@ -84,13 +84,18 @@ export default function App() {
       const parsedGPX = parser.parseFromString(readXml, 'application/xml');
       const gpxAsGeojson = JSON.stringify(converter.gpx(parsedGPX));
       createGpx({ variables: { content: gpxAsGeojson, title } });
-      setShowNotification(true);
-    };
+      if (!createLoading && !createError) {
+        setShowNotification(true);
+      }
+    });
     reader.readAsText(data.file_[0]);
   });
 
   const { data, loading, error } = useQuery<{ gpxs: GpxModel[] }>(GET_GPXS);
-  const [createGpx] = useMutation<{
+  const [
+    createGpx,
+    { loading: createLoading, error: createError },
+  ] = useMutation<{
     createGpx: GpxModel;
   }>(CREATE_GPX, { refetchQueries: [{ query: GET_GPXS }] });
   const [deleteGpx] = useMutation<GpxModel['id']>(DELETE_GPX, {

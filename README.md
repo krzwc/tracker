@@ -11,7 +11,6 @@
 - loader
 - optimistic response
 - more responsive ui
-- notifications
 - microfrontend arch
 
 Playground served locally from:
