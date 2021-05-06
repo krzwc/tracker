@@ -17,11 +17,11 @@ export const Map: FunctionComponent<{
 
   useEffect(() => {
     const mapboxgl = window.mapboxgl;
-    mapboxgl.accessToken = 'pTRwinTMAALKOrShrYPV';
+    mapboxgl.accessToken = '9Dg3YtKfhtMPWumuSweX';
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       style:
-        'https://api.maptiler.com/maps/97ad608b-151a-4a40-9e4f-64a55c304d2d/style.json?key=pTRwinTMAALKOrShrYPV',
+        'https://api.maptiler.com/maps/97ad608b-151a-4a40-9e4f-64a55c304d2d/style.json?key=9Dg3YtKfhtMPWumuSweX',
       center: [lng, lat],
       zoom: zoom,
     });
