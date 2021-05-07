@@ -11,6 +11,16 @@ https://cocky-joliot-9e0c46.netlify.app
 
 ## Local deployment
 
+Obtain your Maptiler key from https://www.maptiler.com/ and use it:
+```tsx
+// src/client/Map/index.tsx
+mapboxgl.accessToken = 'YOUR_KEY';
+const map = new mapboxgl.Map({
+    //...
+    style: '.../style.json?key=YOUR_KEY',
+})
+```
+
 Install netlify globally
 
 ```bash
